@@ -6,9 +6,12 @@ import { useHistory } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 
 import useStyles from "./styles";
-import { createPost } from "../../actions/posts";
-const Form = () => {
+import { createPost, updatePost } from "../../actions/posts";
+const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((message) => message._id === currentId) : null
+  );
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: "",
@@ -19,7 +22,7 @@ const Form = () => {
   });
 
   const clear = () => {
-    // setCurrentId(0);
+    setCurrentId(0);
     setPostData({
       creator: "",
       title: "",
@@ -29,22 +32,20 @@ const Form = () => {
     });
   };
 
-  // useEffect(() => {
-  //   if (post) setPostData(post);
-  // }, [post]);
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(createPost(postData));
-
-    // if (currentId === 0) {
-    //   dispatch(createPost(postData));
-    //   clear();
-    // } else {
-    //   // dispatch(updatePost(currentId, postData));
-    //   clear();
-    // }
+    if (currentId === 0) {
+      dispatch(createPost(postData));
+      clear();
+    } else {
+      dispatch(updatePost(currentId, postData));
+      clear();
+    }
   };
 
   return (
@@ -55,7 +56,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Create a Memory</Typography>
+        <Typography variant="h6">
+          {currentId ? `Editing "${post.title}"` : "Creating a Memory"}
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
