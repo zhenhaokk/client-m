@@ -15,22 +15,21 @@ const Navbar = () => {
   const user = null;
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography
-          // component={Link}
-          className={classes.heading}
-          variant="h2"
-          align="center"
-        >
-          Memories
-        </Typography>
+      <Link to="/" className={classes.brandContainer}>
+        <img
+          component={Link}
+          to="/"
+          src={memoriesText}
+          alt="icon"
+          height="45px"
+        />
         <img
           className={classes.image}
           src={memoriesLogo}
-          alt="memories"
-          height="60"
+          alt="icon"
+          height="40px"
         />
-      </div>
+      </Link>
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
           <div className={classes.profile}>
@@ -55,8 +54,8 @@ const Navbar = () => {
           </div>
         ) : (
           <Button
-            // component={Link}
-            // to="/auth"
+            component={Link}
+            to="/auth"
             variant="contained"
             color="primary"
           >
