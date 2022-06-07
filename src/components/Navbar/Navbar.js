@@ -12,6 +12,7 @@ import useStyles from "./styles";
 const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
@@ -33,7 +34,7 @@ const Navbar = () => {
     // }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, []);
+  }, [location]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
