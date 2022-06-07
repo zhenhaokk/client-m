@@ -11,16 +11,17 @@ import useStyles from "./styles";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
-  // const logout = () => {
-  //   dispatch({ type: actionType.LOGOUT });
+  const logout = () => {
+    dispatch({ type: actionType.LOGOUT });
 
-  //   history.push("/auth");
+    history.push("/auth");
 
-  //   setUser(null);
-  // };
+    setUser(null);
+  };
 
   useEffect(() => {
     const token = user?.token;
@@ -68,7 +69,7 @@ const Navbar = () => {
               variant="contained"
               className={classes.logout}
               color="secondary"
-              onClick={() => {}}
+              onClick={logout}
             >
               Logout
             </Button>
