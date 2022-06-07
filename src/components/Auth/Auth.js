@@ -15,6 +15,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
 import Icon from "./icon";
+import { signin, signup } from "../../actions/auth";
 
 const initialState = {
   firstName: "",
@@ -59,10 +60,20 @@ const Auth = () => {
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
+  const handleSubmit = (e) => { 
+     e.preventDefault();
+
+     if (isSignup) {
+       dispatch(signup(form, history));
+     } else {
+       dispatch(signin(form, history));
+     }
+  };
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = () => {};
+  
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
