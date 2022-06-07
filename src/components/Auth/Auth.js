@@ -33,6 +33,24 @@ const Auth = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const googleSuccess = async (res) => {
+    console.log(res);
+    // const result = res?.profileObj;
+    // const token = res?.tokenId;
+
+    // try {
+    //   dispatch({ type: 'AUTH', data: { result, token } });
+
+    //   history.push("/");
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
+  const googleError = (error) => {
+    console.log(error.message);
+  };
+
   const switchMode = () => {
     setForm(initialState);
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -104,6 +122,25 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
+          <GoogleLogin
+            clientId="336931713145-ahtbqpuou6d3qtshph16957sijquupr4.apps.googleusercontent.com"
+            render={(renderProps) => (
+              <Button
+                className={classes.googleButton}
+                color="primary"
+                fullWidth
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                startIcon={<Icon />}
+                variant="contained"
+              >
+                Google Sign In
+              </Button>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleError}
+            cookiePolicy="single_host_origin"
+          />
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
