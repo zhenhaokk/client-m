@@ -35,16 +35,16 @@ const Auth = () => {
 
   const googleSuccess = async (res) => {
     console.log(res);
-    // const result = res?.profileObj;
-    // const token = res?.tokenId;
+    const result = res?.profileObj;
+    const token = res?.tokenId;
 
-    // try {
-    //   dispatch({ type: 'AUTH', data: { result, token } });
+    try {
+      dispatch({ type: 'AUTH', data: { result, token } });
 
-    //   history.push("/");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const googleError = (error) => {
