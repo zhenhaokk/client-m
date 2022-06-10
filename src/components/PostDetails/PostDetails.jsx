@@ -10,6 +10,7 @@ import moment from "moment";
 import { useParams, useHistory } from "react-router-dom";
 
 import { getPost, getPostsBySearch } from "../../actions/posts";
+import CommentSection from "./CommentSection";
 import useStyles from "./styles";
 
 const Post = () => {
@@ -74,7 +75,7 @@ const Post = () => {
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
           <Typography variant="body1">
-            <strong>Comments - coming soon!</strong>
+            <CommentSection post={post} />
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
         </div>
