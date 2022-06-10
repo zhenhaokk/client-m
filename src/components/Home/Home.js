@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Grow,
@@ -12,8 +12,7 @@ import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 
-// import { getPostsBySearch } from "../../actions/posts";
-import { getPosts, getPostsBySearch } from "../../actions/posts";
+import { getPostsBySearch } from "../../actions/posts";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import Pagination from "../Pagination";
@@ -22,29 +21,19 @@ import useStyles from "./styles";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-
 const Home = () => {
-  const [currentId, setCurrentId] = useState(0);
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const [tags, setTags] = useState([]);
   const query = useQuery();
-  const history = useHistory();
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
+
+  const [currentId, setCurrentId] = useState(0);
+  const dispatch = useDispatch();
+
   const [search, setSearch] = useState("");
+  const [tags, setTags] = useState([]);
+  const history = useHistory();
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
-
-
-
-  const handleAddChip = (tag) => setTags([...tags, tag]);
-
-  const handleDeleteChip = (chipToDelete) =>
-    setTags(tags.filter((tag) => tag !== chipToDelete));
-  
   const searchPost = () => {
     if (search.trim() || tags) {
       dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
@@ -62,15 +51,20 @@ const Home = () => {
     }
   };
 
+  const handleAddChip = (tag) => setTags([...tags, tag]);
+
+  const handleDeleteChip = (chipToDelete) =>
+    setTags(tags.filter((tag) => tag !== chipToDelete));
+
   return (
     <Grow in>
       <Container maxWidth="xl">
         <Grid
           container
-          className={classes.gridContainer}
           justifyContent="space-between"
           alignItems="stretch"
           spacing={3}
+          className={classes.gridContainer}
         >
           <Grid item xs={12} sm={6} md={9}>
             <Posts setCurrentId={setCurrentId} />

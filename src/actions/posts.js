@@ -8,10 +8,20 @@ import {
   UPDATE,
   DELETE,
   LIKE,
-  COMMENT,
-  FETCH_BY_CREATOR,
 } from "../constants/actionTypes";
 import * as api from "../api/index.js";
+
+export const getPost = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+
+    const { data } = await api.fetchPost(id);
+
+    dispatch({ type: FETCH_POST, payload: { post: data } });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getPosts = (page) => async (dispatch) => {
   try {
@@ -30,15 +40,28 @@ export const getPosts = (page) => async (dispatch) => {
   }
 };
 
-export const createPost = (post) => async (dispatch) => {
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
+    const {
+      data: { data },
+    } = await api.fetchPostsBySearch(searchQuery);
 
+    dispatch({ type: FETCH_BY_SEARCH, payload: { data } });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createPost = (post, history) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.createPost(post);
 
     dispatch({ type: CREATE, payload: data });
-    dispatch({ type: END_LOADING });
 
+    history.push(`/posts/${data._id}`);
   } catch (error) {
     console.log(error);
   }
@@ -54,16 +77,6 @@ export const updatePost = (id, post) => async (dispatch) => {
   }
 };
 
-export const deletePost = (id) => async (dispatch) => {
-  try {
-    await api.deletePost(id);
-
-    dispatch({ type: DELETE, payload: id });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 export const likePost = (id) => async (dispatch) => {
   const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -76,15 +89,11 @@ export const likePost = (id) => async (dispatch) => {
   }
 };
 
-export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+export const deletePost = (id) => async (dispatch) => {
   try {
-    dispatch({ type: START_LOADING });
-    const {
-      data: { data },
-    } = await api.fetchPostsBySearch(searchQuery);
+    await await api.deletePost(id);
 
-    dispatch({ type: FETCH_BY_SEARCH, payload: { data } });
-    dispatch({ type: END_LOADING });
+    dispatch({ type: DELETE, payload: id });
   } catch (error) {
     console.log(error);
   }
