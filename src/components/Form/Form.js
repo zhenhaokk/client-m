@@ -10,7 +10,7 @@ import { createPost, updatePost } from "../../actions/posts";
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const post = useSelector((state) =>
-    currentId ? state.posts.find((message) => message._id === currentId) : null
+    currentId ? state.posts.posts.find((message) => message._id === currentId) : null
   );
   const dispatch = useDispatch();
   const history = useHistory();
